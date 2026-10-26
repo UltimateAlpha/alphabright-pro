@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bright Anyanwu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ============================================================
+   Bright Anyanwu — portfolio  ·  v3
+   Direction: pure black & white, product-grade and minimal
+   (Stripe / Revolut / Deel / Gumroad lineage). One clean
+   grotesque + a mono for data. Crisp hairlines, generous
+   whitespace, tabular numbers, product screenshots forward.
+   Light-first with a dark toggle. Single-document app:
+   one view at a time, smooth page transitions.
+   ============================================================ */
+:root{
+  --bg:#ffffff;
+  --bg-2:#f7f7f8;
+  --card:#ffffff;
+  --ink:#0a0a0b;          /* reads black */
+  --ink-strong:#000000;
+  --muted:#6b6b72;
+  --faint:#9a9aa2;
+  --line:#ebebed;
+  --line-2:#dcdce0;
+  --accent:#0a0a0b;       /* monochrome: the accent is ink */
+  --accent-ink:#0a0a0b;
+  --accent-soft:rgba(10,10,11,.05);
+  --shadow:0 18px 44px -24px rgba(10,10,20,.22);
+  --shadow-sm:0 8px 22px -16px rgba(10,10,20,.2);
+  --chrome-bar:#f1f1f3;
+  --chrome-face:#ffffff;
+  --bezel:#0a0a0a;
+  --radius:12px;
+  --radius-lg:18px;
+  --maxw:1180px;
+  --f-display:"Hanken Grotesk", system-ui, sans-serif;
+  --f-body:"Hanken Grotesk", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0a0a0b;
+  --bg-2:#121214;
+  --card:#101012;
+  --ink:#f5f5f6;
+  --ink-strong:#ffffff;
+  --muted:#9a9aa2;
+  --faint:#64646b;
+  --line:#242427;
+  --line-2:#34343a;
+  --accent:#f5f5f6;
+  --accent-ink:#f5f5f6;
+  --accent-soft:rgba(245,245,246,.08);
+  --shadow:0 24px 60px -28px rgba(0,0,0,.8);
+  --shadow-sm:0 10px 30px -20px rgba(0,0,0,.7);
+  --chrome-bar:#1b1b1e;
+  --chrome-face:#0f0f11;
+  --bezel:#000000;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--f-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;letter-spacing:-.003em;overflow-x:hidden;
+  transition:background .35s ease, color .35s ease;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--ink);color:var(--bg)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+em{font-style:italic}
+
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;
+  padding-left:max(22px,env(safe-area-inset-left,0px));
+  padding-right:max(22px,env(safe-area-inset-right,0px));}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  background:color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+.monogram{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;
+  background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:12px;letter-spacing:.02em;font-weight:500}
+.brand b{font-weight:700;font-size:16px;letter-spacing:-.01em}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-link{color:var(--muted);font-size:14px;font-weight:500;padding:8px 12px;border-radius:999px;transition:color .18s;cursor:pointer}
+.nav-link:hover,.nav-link.on{color:var(--ink)}
+.nav-cta{background:var(--ink);color:var(--bg);border-radius:999px;padding:9px 17px;font-size:14px;font-weight:600;transition:.2s;cursor:pointer}
+.nav-cta:hover{opacity:.85}
+.tglt{width:38px;height:38px;border-radius:999px;border:1px solid var(--line-2);background:transparent;
+  display:grid;place-items:center;cursor:pointer;color:var(--muted);transition:.2s;padding:0}
+.tglt:hover{color:var(--ink)}
+.tglt svg{width:17px;height:17px}
+@media(max-width:640px){.nav-link.hide-sm{display:none}}
+
+/* ---------- view switching ---------- */
+.view[hidden]{display:none!important}
+.view.leaving{animation:vOut .24s ease forwards;pointer-events:none}
+.view.entering{animation:vIn .44s cubic-bezier(.2,.75,.2,1)}
+@keyframes vOut{to{opacity:0;transform:translateY(-10px)}}
+@keyframes vIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.reveal .rise{opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:var(--d,0s)}
+
+/* ---------- hero ---------- */
+.hero{padding-block:clamp(44px,7vw,80px) 30px}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(28px,5vw,64px);align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;color:var(--faint);
+  text-transform:uppercase;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.eyebrow .d{width:3px;height:3px;border-radius:50%;background:var(--muted)}
+h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
+  font-size:clamp(40px,6.2vw,72px);text-wrap:balance;max-width:15ch}
+.lede{margin-top:24px;max-width:48ch;font-size:clamp(16px,1.5vw,18.5px);color:var(--muted);line-height:1.5}
+.lede b{color:var(--ink);font-weight:600}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:13px 24px;
+  font-weight:600;font-size:15px;transition:.2s;border:1px solid transparent;cursor:pointer}
+.btn svg{width:16px;height:16px;transition:transform .25s}
+.btn-main{background:var(--ink);color:var(--bg)}
+.btn-main:hover{opacity:.86}
+.btn-main:hover svg{transform:translateX(3px)}
+.btn-ghost{border-color:var(--line-2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink)}
+.hero-visual{min-width:0}
+.hero-visual .browser{margin:0;transform:translateZ(0)}
+.hero-visual .browser img{max-height:360px}
+.logo-float{position:relative;width:100%;height:clamp(300px,34vw,420px);
+  border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg-2);overflow:hidden}
+.tools-cap{position:absolute;top:14px;left:16px;z-index:1;font-family:var(--f-mono);
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);pointer-events:none}
+.lchip{position:absolute;top:0;left:0;width:46px;height:46px;border-radius:13px;background:var(--card);
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);display:grid;place-items:center;will-change:transform;cursor:pointer;transition:box-shadow .2s ease}
+.lchip svg{width:30px;height:30px;display:block}
+.lchip:hover{box-shadow:0 18px 40px -14px rgba(10,10,30,.45)}
+.ltip{position:absolute;z-index:3;pointer-events:none;background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:11px;letter-spacing:.02em;padding:4px 9px;border-radius:8px;white-space:nowrap;opacity:0;transform:translate(-50%,-100%);transition:opacity .15s ease}
+
+/* metric row — clean dashboard grid */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:clamp(40px,6vw,64px);
+  background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.tile{background:var(--card);padding:22px 22px 20px}
+.tile .num{font-family:var(--f-mono);font-weight:500;font-size:clamp(24px,3vw,32px);
+  letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.tile .lbl{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.4}
+.tile .src{margin-top:7px;font-family:var(--f-mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:820px){.metrics{grid-template-columns:1fr 1fr}}
+
+/* ---------- section head ---------- */
+.block{padding-block:clamp(54px,8vw,88px)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;flex-wrap:wrap;
+  margin-bottom:38px;border-bottom:1px solid var(--line);padding-bottom:22px}
+.sec-tag{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.sec-head h2{font-weight:700;letter-spacing:-.025em;font-size:clamp(28px,4vw,42px);margin:12px 0 0;line-height:1.02;text-wrap:balance}
+.sec-head p{color:var(--muted);max-width:44ch;margin:0;font-size:15px}
+
+/* ---------- work cards ---------- */
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.work-grid{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;background:var(--card);
+  cursor:pointer;display:flex;flex-direction:column;transition:box-shadow .3s ease,border-color .25s ease,transform .3s cubic-bezier(.2,.7,.2,1)}
+.card:hover{box-shadow:var(--shadow);border-color:var(--line-2);transform:translateY(-4px)}
+.card .shot{position:relative;overflow:hidden;min-height:216px;background:var(--bg-2);
+  display:flex;justify-content:center;gap:18px;align-items:flex-end;padding:28px 28px 0;border-bottom:1px solid var(--line)}
+.card .shot .ph{width:164px;border-radius:16px 16px 0 0;border:1px solid var(--line-2);border-bottom:none;
+  box-shadow:var(--shadow-sm);transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.card .shot .ph.two{width:136px}
+.card:hover .shot .ph{transform:translateY(-6px)}
+.card .shot.wide{padding:0;min-height:0;display:block}
+.card .shot.wide img{width:100%;max-height:216px;object-fit:cover;object-position:top;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.card:hover .shot.wide img{transform:scale(1.035)}
+.card .shot.cover{padding:0;min-height:216px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--bg-2)}
+.card .shot.cover .big{font-weight:800;font-size:64px;line-height:1;letter-spacing:-.04em}
+.card .shot.cover .cl{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.card .body{padding:24px 26px 26px}
+.chiprow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.chip{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.04em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 10px;text-transform:uppercase}
+.chip.live{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+.card h3{font-weight:700;font-size:24px;margin:0 0 5px;letter-spacing:-.02em}
+.card .role{color:var(--faint);font-size:13px;font-family:var(--f-mono);margin-bottom:14px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.card .outcome{margin-top:16px;display:flex;gap:22px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+.card .outcome .o-num{font-family:var(--f-mono);color:var(--ink);font-size:17px;font-weight:500}
+.card .outcome .o-lbl{font-size:12px;color:var(--muted)}
+.card .more{margin-top:18px;color:var(--ink);font-weight:600;font-size:14px;display:inline-flex;gap:8px;align-items:center;transition:gap .25s}
+.card:hover .more{gap:12px}
+
+/* home summary */
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;
+  border-top:1px solid var(--line);padding-top:clamp(48px,7vw,70px)}
+@media(max-width:760px){.summary{grid-template-columns:1fr;gap:24px}}
+.summary .big{font-weight:700;font-size:clamp(24px,3.2vw,34px);line-height:1.15;letter-spacing:-.025em;text-wrap:balance;margin:0}
+.summary p{color:var(--muted);margin:0 0 20px;font-size:15.5px;line-height:1.6}
+
+/* ---------- case pages ---------- */
+.case-view{padding-top:clamp(28px,5vw,48px)}
+.back{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;
+  display:inline-flex;gap:8px;align-items:center;cursor:pointer;transition:color .2s}
+.back:hover{color:var(--ink)}
+.case-head{max-width:72ch;margin-top:24px}
+.case-id{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.case-title{font-weight:800;font-size:clamp(32px,5vw,58px);letter-spacing:-.035em;margin:14px 0 0;line-height:1.0;text-wrap:balance}
+.case-meta{font-family:var(--f-mono);font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-top:18px}
+.sub{color:var(--ink);font-size:clamp(16px,1.8vw,19px);margin-top:22px;max-width:64ch;line-height:1.55}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:40px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.kpis .k{background:var(--card);padding:20px}
+.kpis .n{font-family:var(--f-mono);font-size:clamp(20px,2.4vw,26px);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1;letter-spacing:-.02em}
+.kpis .l{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.35}
+@media(max-width:720px){.kpis{grid-template-columns:1fr 1fr}}
+
+.phone-row{display:flex;gap:18px;overflow-x:auto;margin-top:40px;padding-bottom:10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.phone{flex:none;width:210px;scroll-snap-align:start}
+.phone .frame{border-radius:26px;border:1px solid var(--line-2);background:var(--bezel);padding:7px;box-shadow:var(--shadow)}
+.phone .frame img{border-radius:20px;width:100%}
+.phone .cap{font-family:var(--f-mono);font-size:10.5px;color:var(--faint);text-align:center;padding:11px 4px 0;text-transform:uppercase;letter-spacing:.05em}
+.phone.feat .frame{border-color:var(--ink)}
+
+.story{max-width:64ch;margin-top:46px}
+.story h4{font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 10px}
+.step{margin-bottom:30px}
+.step p{margin:0;color:var(--ink);font-size:16px;line-height:1.62}
+.step p b{font-weight:700}
+.pull{font-weight:700;font-size:clamp(20px,2.6vw,27px);line-height:1.2;letter-spacing:-.025em;margin:34px 0;padding-left:20px;border-left:3px solid var(--ink);color:var(--ink);max-width:26ch}
+
+.browser{border:1px solid var(--line-2);border-radius:12px;overflow:hidden;background:var(--chrome-face);box-shadow:var(--shadow);margin-top:42px}
+.browser .bar{height:38px;display:flex;align-items:center;gap:7px;padding:0 15px;background:var(--chrome-bar);border-bottom:1px solid var(--line)}
+.browser .bar i{width:10px;height:10px;border-radius:50%;background:var(--line-2);display:block}
+.browser .bar .u{margin-left:12px;font-family:var(--f-mono);font-size:11px;color:var(--faint);background:var(--chrome-face);
+  border:1px solid var(--line);border-radius:6px;padding:3px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62%}
+.browser img{width:100%;display:block;max-height:520px;object-fit:cover;object-position:top}
+.shot-lab{font-family:var(--f-mono);font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em;margin-top:12px}
+.art{border:1px solid var(--line-2);border-radius:12px;overflow:hidden;background:#fff;box-shadow:var(--shadow);margin-top:42px}
+.art img{width:100%;display:block}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:720px){.vgrid{grid-template-columns:1fr}}
+.vgrid .browser,.vgrid .art{margin-top:0}
+.vgrid .browser img{max-height:320px}
+.vwrap{margin-top:20px}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+@media(max-width:560px){.compare{grid-template-columns:1fr}}
+.compare .col{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--card)}
+.compare .col.good{border-color:var(--ink)}
+.compare .tagline{font-family:var(--f-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:7px;color:var(--ink)}
+.compare img{border-radius:10px;border:1px solid var(--line)}
+.compare .col p{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.5}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+@media(max-width:640px){.split{grid-template-columns:1fr}}
+.pane{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--card)}
+.pane.ic{border-color:var(--ink)}
+.pane .ph2{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+.pane .ph2 svg{width:22px;height:22px;flex:none;color:var(--ink)}
+.pane.lead .ph2 svg{color:var(--muted)}
+.pane .ph2 .t{font-weight:700;font-size:17px;letter-spacing:-.01em}
+.pane .ph2 .k{font-family:var(--f-mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+.pane ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.pane li{position:relative;padding-left:20px;font-size:14.5px;color:var(--ink);line-height:1.5}
+.pane li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:2px;background:var(--ink)}
+.pane.lead li::before{background:var(--muted)}
+
+.sub-h{font-family:var(--f-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:48px 0 16px}
+.trigrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.trigrid{grid-template-columns:1fr}}
+.tcard{border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--card)}
+.tcard h5{font-weight:700;font-size:17px;margin:0 0 3px;letter-spacing:-.01em}
+.tcard .rl{font-family:var(--f-mono);font-size:10.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.tcard p{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+.tcard ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px;line-height:1.6}
+.tcard ul li{margin-bottom:5px}
+.tcard .mx{font-family:var(--f-mono);font-size:12px;color:var(--ink);margin-top:14px;border-top:1px solid var(--line);padding-top:12px;line-height:1.8}
+
+.case-nav{display:flex;justify-content:space-between;gap:16px;margin-top:60px;padding-top:26px;border-top:1px solid var(--line);flex-wrap:wrap}
+.case-nav a{font-family:var(--f-mono);font-size:12.5px;color:var(--muted);cursor:pointer;transition:color .2s;text-transform:uppercase;letter-spacing:.04em}
+.case-nav a:hover{color:var(--ink)}
+.case-nav a:last-child{color:var(--ink)}
+
+/* about */
+.about-lede{font-weight:700;font-size:clamp(26px,4vw,42px);line-height:1.1;letter-spacing:-.03em;max-width:20ch;margin:0}
+.about-body{max-width:66ch;color:var(--ink);font-size:16.5px;line-height:1.62;margin-top:30px}
+.about-body b{font-weight:700}
+.about-body p{margin:0 0 16px;color:var(--muted)}
+.about-body p b{color:var(--ink)}
+.approach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+@media(max-width:820px){.approach-grid{grid-template-columns:1fr}}
+.acard{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--card)}
+.acard .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--line-2);color:var(--ink);margin-bottom:18px}
+.acard .ic svg{width:20px;height:20px}
+.acard h3{font-weight:700;font-size:19px;margin:0 0 10px;letter-spacing:-.01em}
+.acard p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.58}
+.acard .k{color:var(--ink);font-weight:600}
+
+/* footer / contact */
+.foot{border-top:1px solid var(--line);margin-top:30px;background:var(--bg-2)}
+.foot-in{padding-block:clamp(52px,8vw,88px)}
+.foot h2{font-weight:800;font-size:clamp(30px,5vw,54px);letter-spacing:-.035em;margin:0;line-height:1.0;text-wrap:balance;max-width:16ch}
+.foot p{color:var(--muted);max-width:44ch;margin:18px 0 0;font-size:16px}
+.foot-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;align-items:center}
+.email-box{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line-2);border-radius:999px;padding:7px 7px 7px 20px;font-family:var(--f-mono);font-size:15px}
+.email-box .addr{user-select:all}
+.copy{background:var(--ink);color:var(--bg);border:none;border-radius:999px;padding:9px 16px;font-family:var(--f-body);font-weight:600;font-size:13px;cursor:pointer;transition:.18s}
+.copy:hover{opacity:.85}
+.flinks{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.flinks a{border:1px solid var(--line-2);border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted);font-weight:500;transition:.18s}
+.flinks a:hover{color:var(--ink);border-color:var(--ink)}
+.foot-meta{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:var(--f-mono);font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important;transition-duration:.001s!important}
+  .reveal .rise{opacity:1}
+}
+</style>
+</head>
+<body>
+
+
+<!-- ============================ NAV ============================ -->
+<nav class="nav">
+  <div class="wrap nav-in">
+    <div class="brand" data-route="home">
+      <span class="monogram">BA</span>
+      <b>Bright Anyanwu</b>
+    </div>
+    <div class="nav-right">
+      <span class="nav-link hide-sm" data-route="home" id="nl-work">Work</span>
+      <span class="nav-link hide-sm" data-route="about" id="nl-about">About</span>
+      <span class="nav-link hide-sm" id="nl-contact">Contact</span>
+      <button class="tglt" id="themeBtn" type="button" aria-label="Toggle theme"></button>
+      <span class="nav-cta" id="nl-cta">Get in touch</span>
+    </div>
+  </div>
+</nav>
+
+<main>
+<!-- ============================ HOME ============================ -->
+<section id="view-home" class="view">
+  <header class="wrap hero reveal">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="eyebrow rise" style="--d:0s">
+          <span>Product Design Leader</span><span class="d"></span>
+          <span>Fintech · Crypto · Beyond</span><span class="d"></span>
+          <span>Lagos</span>
+        </div>
+        <h1 class="head rise" style="--d:.06s">I lead product design — and I'm still in the file.</h1>
+        <p class="lede rise" style="--d:.13s">Player-coach design leader for fintech and crypto products. I set the direction and build the team, and I <b>still own the flows in Figma</b> that move the numbers.</p>
+        <div class="hero-cta rise" style="--d:.2s">
+          <span class="btn btn-main" data-route="peniremit">See the work
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="btn btn-ghost" data-route="about">About me</span>
+        </div>
+      </div>
+      <div class="hero-visual rise" style="--d:.26s">
+        <div class="logo-float" id="logoFloat" aria-hidden="true"><span class="tools-cap">Tools I build with</span>
+          <div class="lchip" title="Figma"><svg viewBox="0 0 38 57" style="width:auto;height:30px"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/></svg></div>
+          <div class="lchip" title="Claude"><svg viewBox="0 0 32 32"><g stroke="#D97757" stroke-width="2.6" stroke-linecap="round"><path d="M16 4v8M16 20v8M4 16h8M20 16h8M7.8 7.8l5 5M19.2 19.2l5 5M24.2 7.8l-5 5M7.8 24.2l5-5"/></g></svg></div>
+          <div class="lchip" title="Claude Code"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#0A0A0A"/><path d="M9 12l4 4-4 4M16.5 20H23" stroke="#D97757" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="lchip" title="Lovable"><svg viewBox="0 0 32 32"><defs><linearGradient id="lv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A59"/><stop offset="1" stop-color="#F5317F"/></linearGradient></defs><path d="M16 27C5.5 19.6 4 13.3 7.6 9.8a6 6 0 0 1 8.4.6 6 6 0 0 1 8.4-.6C28 13.3 26.5 19.6 16 27z" fill="url(#lv)"/></svg></div>
+          <div class="lchip" title="Granola"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#F2ECDD"/><g fill="#9A7B45"><circle cx="12" cy="13" r="3.4"/><circle cx="20.5" cy="12" r="2.8"/><circle cx="16" cy="20" r="3.2"/><circle cx="23" cy="19.5" r="2.3"/><circle cx="9.5" cy="20.5" r="2.1"/></g></svg></div>
+          <div class="lchip" title="Amplitude"><svg viewBox="0 0 32 32"><g fill="#1E61F0"><rect x="5" y="18" width="4" height="9" rx="2"/><rect x="11.3" y="12" width="4" height="15" rx="2"/><rect x="17.6" y="7" width="4" height="20" rx="2"/><rect x="23.9" y="14" width="4" height="13" rx="2"/></g></svg></div>
+          <div class="lchip" title="PostHog"><svg viewBox="0 0 32 32"><g fill="#F9BD2B"><path d="M7 14l2-6 2 6z"/><path d="M12 14l2-7 2 7z"/><path d="M17 14l2-6 2 6z"/></g><path d="M3 25c.6-7.3 6-12.5 13.3-12.5S29 17.7 29 25H3z" fill="#1D1F27"/><circle cx="24.3" cy="19.5" r="1.7" fill="#fff"/><circle cx="24.3" cy="19.5" r=".8" fill="#1D1F27"/><circle cx="28" cy="22.3" r="1.6" fill="#F54E00"/></svg></div>
+          <div class="lchip" title="Slack"><svg viewBox="0 0 54 54"><path d="M19.7.1a5.38 5.38 0 0 0-5.37 5.39A5.38 5.38 0 0 0 19.7 10.9h5.38V5.49A5.38 5.38 0 0 0 19.7.1m0 14.37H5.38A5.38 5.38 0 0 0 0 19.86a5.38 5.38 0 0 0 5.38 5.39H19.7a5.38 5.38 0 0 0 5.38-5.39 5.38 5.38 0 0 0-5.38-5.39" fill="#36C5F0"/><path d="M53.76 19.86a5.38 5.38 0 0 0-5.38-5.39 5.38 5.38 0 0 0-5.38 5.39v5.39h5.38a5.38 5.38 0 0 0 5.38-5.39m-14.33 0V5.49A5.38 5.38 0 0 0 34.05.1a5.38 5.38 0 0 0-5.38 5.39v14.37a5.38 5.38 0 0 0 5.38 5.39 5.38 5.38 0 0 0 5.38-5.39" fill="#2EB67D"/><path d="M34.05 53.9a5.38 5.38 0 0 0 5.38-5.39 5.38 5.38 0 0 0-5.38-5.39h-5.38v5.39a5.38 5.38 0 0 0 5.38 5.39m0-14.37h14.33a5.38 5.38 0 0 0 5.38-5.39 5.38 5.38 0 0 0-5.38-5.39H34.05a5.38 5.38 0 0 0-5.38 5.39 5.38 5.38 0 0 0 5.38 5.39" fill="#ECB22E"/><path d="M0 34.14a5.38 5.38 0 0 0 5.38 5.39 5.38 5.38 0 0 0 5.38-5.39v-5.39H5.38A5.38 5.38 0 0 0 0 34.14m14.33 0v14.37a5.38 5.38 0 0 0 5.38 5.39 5.38 5.38 0 0 0 5.38-5.39V34.14a5.38 5.38 0 0 0-5.38-5.39 5.38 5.38 0 0 0-5.38 5.39" fill="#E01E5A"/></svg></div>
+          <div class="lchip" title="Notion"><svg viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="7" fill="#fff" stroke="#E6E6E6"/><path d="M11 10v12M11 10l10 12M21 10v12" stroke="#111" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="lchip" title="Supabase"><svg viewBox="0 0 32 32"><path d="M17.4 3.2 6.3 17.1c-.7.9-.1 2.2 1 2.2H15v9.3c0 1 1.3 1.5 2 .7l10.8-13.9c.7-.9.1-2.2-1-2.2H19V3.9c0-1-1.3-1.5-2-.7z" fill="#3ECF8E"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div class="metrics rise" style="--d:.32s">
+      <div class="tile"><div class="num" data-to="1.2" data-pre="$" data-suf="B+" data-dec="1">$1.2B+</div><div class="lbl">Cumulative on-chain volume shipped</div><div class="src">Peniwallet</div></div>
+      <div class="tile"><div class="num" data-to="9000" data-suf="+">9,000+</div><div class="lbl">Users in the first 10 weeks</div><div class="src">Peniremit</div></div>
+      <div class="tile"><div class="num" data-to="40" data-suf="%">40%</div><div class="lbl">Faster task completion for analysts</div><div class="src">Capitalyze</div></div>
+      <div class="tile"><div class="num" data-to="6" data-suf="">6</div><div class="lbl">Products shipped, fintech to health-AI</div><div class="src">2019 → now</div></div>
+    </div>
+  </header>
+
+  <section class="wrap block">
+    <div class="sec-head">
+      <div>
+        <div class="sec-tag">Selected work</div>
+        <h2>Six products, decisions you can inspect</h2>
+      </div>
+      <p>Each opens on its own page: the outcome, the call I made, the tradeoff, and exactly which pixels were mine versus the team's.</p>
+    </div>
+
+    <div class="work-grid">
+      <div class="card" data-route="peniremit">
+        <div class="shot"><img class="ph" src="img/peniremit-home.jpg" alt="Peniremit home"><img class="ph two" src="img/peniremit-select-token.jpg" alt="Peniremit Smart Spend"></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip live">Lead designer</span><span class="chip">Crypto payments</span><span class="chip">0→1</span></div>
+          <h3>Peniremit</h3>
+          <div class="role">Spend crypto like cash — bills, airtime, bank transfers</div>
+          <p>Made a messy multi-token balance feel like one spendable number, so paying a ₦2M bill never means thinking about which coins to combine.</p>
+          <div class="outcome"><div><div class="o-num">9,000+</div><div class="o-lbl">users in 10 weeks</div></div><div><div class="o-num">$400K+</div><div class="o-lbl">processed</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+
+      <div class="card" data-route="peniwallet">
+        <div class="shot"><img class="ph" src="img/peniwallet-home.jpg" alt="Peniwallet home"><img class="ph two" src="img/peniwallet-tx-chat.jpg" alt="Peniwallet history"></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip live">Lead designer</span><span class="chip">Self-custody wallet</span><span class="chip">Multi-chain</span></div>
+          <h3>Peniwallet</h3>
+          <div class="role">Non-custodial wallet across five chains</div>
+          <p>A redesign I got wrong cost users real money — and the fix became the clearest lesson of my career about designing for <em>your</em> user, not the whole world.</p>
+          <div class="outcome"><div><div class="o-num">$1.2B+</div><div class="o-lbl">volume</div></div><div><div class="o-num">5 chains</div><div class="o-lbl">BNB·SOL·ETH·TON·BASE</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+
+      <div class="card" data-route="capitalyze">
+        <div class="shot wide"><img src="img/cap-overview.jpg" alt="Capitalyze overview"></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip">Product designer</span><span class="chip">Fintech / investing</span><span class="chip">Desktop</span></div>
+          <h3>Capitalyze</h3>
+          <div class="role">Financial intelligence for institutional investors</div>
+          <p>A cleaner, smoother take on Koyfin — a dense desktop terminal held together by one modular system across statements, charts and a 100+ criteria screener.</p>
+          <div class="outcome"><div><div class="o-num">40%</div><div class="o-lbl">faster task completion</div></div><div><div class="o-num">100+</div><div class="o-lbl">screener criteria</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+
+      <div class="card" data-route="retina">
+        <div class="shot wide"><img src="img/ret-capture.jpg" alt="Retina-AI capture grid"></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip">Product designer</span><span class="chip">Health-AI</span><span class="chip">Diagnostics</span></div>
+          <h3>Retina-AI</h3>
+          <div class="role">RETINA-AI Galaxy™ — retinal screening, AI-assisted</div>
+          <p>Designed the clinician-facing experience for an AI diagnostic — where the real job is refusing bad inputs before they ever reach a diagnosis.</p>
+          <div class="outcome"><div><div class="o-num">1,100+</div><div class="o-lbl">patients in study</div></div><div><div class="o-num">~96%</div><div class="o-lbl">accuracy</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+
+      <div class="card" data-route="chipper">
+        <div class="shot wide"><img src="img/chipper-flow.jpg" alt="Chipper onboarding redesign"></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip live">Lead designer, CX</span><span class="chip">Payments</span><span class="chip">Onboarding</span></div>
+          <h3>Chipper Cash</h3>
+          <div class="role">One of Africa's largest consumer payment apps</div>
+          <p>Rebuilt onboarding around trust and read the result straight off the funnel — plus statements, journey mapping and regulatory disclosure.</p>
+          <div class="outcome"><div><div class="o-num">+6.2%</div><div class="o-lbl">liveness-pass</div></div><div><div class="o-num">45%</div><div class="o-lbl">fewer support queries</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+
+      <div class="card" data-route="bitmama">
+        <div class="shot cover"><div class="big">400%</div><div class="cl">more users</div></div>
+        <div class="body">
+          <div class="chiprow"><span class="chip live">Lead designer, CX</span><span class="chip">Crypto exchange</span><span class="chip">Research-led</span></div>
+          <h3>Bitmama</h3>
+          <div class="role">Pan-African crypto exchange, rebuilt from research</div>
+          <p>Started with why users left, not with screens — then rebuilt buy/sell/store/invest end to end, added USDT and a Bitcoin card, and shipped a design system.</p>
+          <div class="outcome"><div><div class="o-num">+45%</div><div class="o-lbl">app usage, 2 mo</div></div><div><div class="o-num">2.9→3.8</div><div class="o-lbl">App Store rating</div></div></div>
+          <span class="more">Read the case study →</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary">
+      <p class="big">A leader who never left the craft — and ships with AI in the loop every day.</p>
+      <div>
+        <p>Head of Product &amp; Product Design at SMC / Penilabs, with earlier work across Chipper Cash, Bitmama, Capitalyze, Retina-AI and Deel. My throughline is high-trust products — payments, wallets, diagnostics — where a design mistake has a real cost and a good decision compounds.</p>
+        <span class="btn btn-ghost" data-route="about">More about me →</span>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ============================ PENIREMIT ============================ -->
+<section id="view-peniremit" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">01 — Peniremit</div>
+      <h1 class="case-title">Making a basket of tokens spend like one number</h1>
+      <div class="case-meta">Lead Product Designer · SMC / Penilabs · 2026 · 0→1 · launched April 2026</div>
+      <p class="sub">Peniremit lets anyone pay bills — airtime, data, cable TV, electricity — and send to bank accounts directly with crypto. The hard part was never the blockchain. It was making a volatile, multi-token balance feel as simple and predictable as spending cash.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">9,000+</div><div class="l">users in first 10 weeks</div></div>
+      <div class="k"><div class="n">$400K+</div><div class="l">processed in that window</div></div>
+      <div class="k"><div class="n">300+</div><div class="l">tester community</div></div>
+      <div class="k"><div class="n">4 rails</div><div class="l">bills, airtime, data, bank</div></div>
+    </div>
+    <div class="phone-row">
+      <figure class="phone feat"><div class="frame"><img src="img/peniremit-select-token.jpg" alt="Smart Spend token selection"></div><figcaption class="cap">Smart Spend · fewest-token logic</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniremit-transfer-bank.jpg" alt="Transfer to bank"></div><figcaption class="cap">Bank transfer · auto-select</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniremit-home.jpg" alt="Home dashboard"></div><figcaption class="cap">Home · USD / NGN</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniremit-card.jpg" alt="Virtual card"></div><figcaption class="cap">Virtual cards</figcaption></figure>
+    </div>
+    <div class="story">
+      <div class="step"><h4>The problem</h4><p>A user's balance isn't one currency — it's USDT, USDC, Stable Naira and other tokens, each a different size, some volatile. To pay a ₦2,000,000 school fee, a normal person would have to work out which coins to combine, in what order, and hope the rate held. That math is exactly what kills trust in a crypto payment app.</p></div>
+      <div class="step"><h4>The call I made</h4><p>Default everything to <b>Smart Spend</b>: the app automatically selects the fewest tokens needed to complete a transaction and denominates spendable value in stablecoins, so a user sees one predictable number. But I refused to make it a black box — the selection is shown as a progress ring (Selected vs Completed against the ₦2M target) and is fully overridable: <em>"We selected the fewest tokens required. You can update your selection anytime."</em></p></div>
+      <div class="pull">Predictability for the 90%, control for the 10% — in the same screen.</div>
+      <div class="step"><h4>The tradeoff</h4><p>Auto-selection risks feeling like the app is deciding <em>for</em> you, and defaulting to stablecoins meant volatile tokens couldn't be the headline balance. I accepted both — and bought the trust back by making every automated choice visible and reversible at the moment of payment, not buried in settings.</p></div>
+      <div class="step"><h4>The outcome</h4><p>Peniremit reached 9,000+ users and processed $400K+ in its first 10 weeks, with a 300+ person tester community feeding the loop. The Smart Spend pattern became the spine of the product — it's how a bank transfer, an airtime top-up and a ₦2M bill all feel like the same simple action.</p></div>
+    </div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The Smart Spend token-selection flow and its progress-ring logic, end to end</li><li>Transfer-to-bank and transfer-to-user flows, including the currency toggle</li><li>Virtual card creation, detail and management screens</li><li>The home dashboard, bill-pay grid and USD/NGN switching</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I led the team on</div><div class="k">Leadership</div></div></div>
+        <ul><li>Product vision, roadmap and scope with PM and engineering</li><li>The "tithing vs spend-and-save" call — reframed a single-faith feature into a flexible set-aside, settled with research across ~30 community and ~20 external users</li><li>Design-system scoping so the team shipped consistently</li><li>The 300+ tester-community loop feeding real usage into decisions</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="home">← All work</a><a data-route="peniwallet">Next: Peniwallet →</a></div>
+  </div>
+</section>
+
+<!-- ============================ PENIWALLET ============================ -->
+<section id="view-peniwallet" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">02 — Peniwallet</div>
+      <h1 class="case-title">The redesign that cost users money — and what I did about it</h1>
+      <div class="case-meta">Lead Product Designer · SMC / Penilabs · Non-custodial · 5 chains</div>
+      <p class="sub">Peniwallet is a self-custody wallet across BNB Chain, Solana, Ethereum, TON and BASE — send, receive, swap and track assets with the keys in the user's hands. This is the case study I'm most honest about, because the strongest decision I made here started as a mistake.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">$1.2B+</div><div class="l">cumulative on-chain volume</div></div>
+      <div class="k"><div class="n">5 chains</div><div class="l">BNB·SOL·ETH·TON·BASE</div></div>
+      <div class="k"><div class="n">Non-custodial</div><div class="l">user holds the keys</div></div>
+      <div class="k"><div class="n">Best of both</div><div class="l">the fix, in one phrase</div></div>
+    </div>
+    <div class="phone-row">
+      <figure class="phone"><div class="frame"><img src="img/peniwallet-home.jpg" alt="Peniwallet home"></div><figcaption class="cap">Home · multi-chain</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniwallet-send-address.jpg" alt="Send address"></div><figcaption class="cap">Send · saved + recent</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniwallet-asset.jpg" alt="Asset detail"></div><figcaption class="cap">Asset detail</figcaption></figure>
+      <figure class="phone"><div class="frame"><img src="img/peniwallet-recovery.jpg" alt="Recovery phrase"></div><figcaption class="cap">Key backup</figcaption></figure>
+    </div>
+    <div class="story">
+      <div class="step"><h4>Where it started</h4><p>Transaction history was originally built per-address — like a chat thread. Every time you sent to someone, you saw your whole history with that address, so you unconsciously recognised <em>"this is my friend's wallet, this is the exchange."</em> It felt non-standard to me, so I scrapped it and replaced it with one clean, consolidated transaction list.</p></div>
+      <div class="step"><h4>The consequence</h4><p>After launch, users started losing money. Without the per-address thread, someone would paste a wallet address, drop or mistype a single character, and send crypto to an address that didn't exist. On-chain, that's irreversible. It happened more than once — and it hurt, because I'd treated the change as an obvious cleanup.</p></div>
+      <div class="pull">A crypto address isn't a phone number. It's 24+ unlabelled characters — nobody memorises it.</div>
+      <div class="step"><h4>What I'd missed</h4><p>That per-address history wasn't clutter. It was how people verified they were sending to the right place. The "standard" consolidated view was right for the whole world and wrong for <em>our</em> user at the one moment that mattered most. Not everything made for everyone is made for your user type.</p></div>
+      <div class="step"><h4>The fix</h4><p>I brought the per-address chat history back — and kept the consolidated ledger too. A unified list for overview; the per-address thread for trust at the moment of sending. I paired it with recently-used and saved addresses so manual entry of 24-character strings became the exception, not the rule.</p></div>
+    </div>
+    <h4 class="sub-h">The decision, side by side</h4>
+    <div class="compare">
+      <div class="col good"><div class="tagline"><span>✓</span> Consolidated ledger — kept</div><img src="img/peniwallet-tx-consolidated.jpg" alt="Consolidated transactions"><p>One place to see everything: sent, received and swaps across chains and dates. Great for overview and reconciliation.</p></div>
+      <div class="col good"><div class="tagline"><span>✓</span> Per-address thread — restored</div><img src="img/peniwallet-tx-chat.jpg" alt="Per-address history"><p>The history <em>with a specific address</em>, chat-style — so before you send, you recognise you've transacted safely with this wallet before.</p></div>
+    </div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The transaction-history architecture — both the consolidated ledger and the restored per-address thread</li><li>The send flow: address entry, recently-used and saved addresses</li><li>Asset-detail views and the swap entry points</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I led the team on</div><div class="k">Leadership</div></div></div>
+        <ul><li>Scoping the redesign to meet the competitor bar for self-custody wallets</li><li>Multi-chain network management across five chains</li><li>The post-incident process change: mid-workflow design check-ins</li><li>Backing a direct report's cleaner dashboard when it beat my own — and shipping theirs</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="peniremit">← Peniremit</a><a data-route="capitalyze">Next: Capitalyze →</a></div>
+  </div>
+</section>
+
+<!-- ============================ CAPITALYZE ============================ -->
+<section id="view-capitalyze" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">03 — Capitalyze</div>
+      <h1 class="case-title">Terminal-grade depth, without the terminal learning curve</h1>
+      <div class="case-meta">Product Designer · 2023 → 2025 · Desktop data platform</div>
+      <p class="sub">Capitalyze is a financial-intelligence terminal for institutional investors — financial statements, custom charts, 13F ownership, insider activity and a 100+ criteria screener in one place. Benchmarked against Koyfin, the brief was blunt: the same depth, but cleaner and faster to read. For an analyst, every extra click is a tax paid hundreds of times a day.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">40%</div><div class="l">faster task completion</div></div>
+      <div class="k"><div class="n">100+</div><div class="l">screener criteria</div></div>
+      <div class="k"><div class="n">1 system</div><div class="l">across every data view</div></div>
+      <div class="k"><div class="n">Desktop</div><div class="l">dense, data-first UI</div></div>
+    </div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">capitalyze.app / AAPL · overview</span></div><img src="img/cap-overview.jpg" alt="Capitalyze overview"></div>
+    <div class="shot-lab">Company overview · at-a-glance cards, then drill anywhere</div>
+    <div class="story">
+      <div class="step"><h4>The problem</h4><p>Institutional research tools win on data and lose on usability. Analysts put up with ugly, dense terminals because nothing cleaner has the depth. Capitalyze's bet was that you could have both — but only if the whole product spoke one visual language, so learning one screen taught you all of them.</p></div>
+      <div class="step"><h4>The call I made</h4><p>I built a <b>modular design system</b> as the backbone: one set of primitives — the data table, the metric card, the chart, and a single control bar (period scrubber, unit, decimals, ordering, freeze panes) — reused across Income Statement, Balance Sheet, Cash Flow, Ratios, the Chart Builder and the Screener. Learn the control bar once, and it works everywhere.</p></div>
+      <div class="pull">Consistency is the feature. In a terminal, a familiar pattern beats a clever one.</div>
+      <div class="step"><h4>Progressive disclosure</h4><p>The company Overview opens with calm at-a-glance cards — market data, capital structure, profitability, valuation — then lets you drill into full statements, expand disaggregated revenue, or push any metric straight to the Chart Builder. Power lives one click deeper, so the first screen never overwhelms.</p></div>
+      <div class="step"><h4>Power features, made approachable</h4><p>The hardest surfaces were the ones built for the most advanced users. I designed each so a first-timer could get a result without a manual — same primitives, same mental model, every time.</p></div>
+    </div>
+    <div class="vwrap"><div class="vgrid">
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">income statement</span></div><img src="img/cap-income.jpg" alt="Income statement"></div><div class="shot-lab">Financial statements · scrubber, freeze panes, CAGR</div></div>
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">builder / chart</span></div><img src="img/cap-chartbuilder.jpg" alt="Chart builder"></div><div class="shot-lab">Chart Builder · multi-security, multi-metric</div></div>
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">screener</span></div><img src="img/cap-screener.jpg" alt="Screener"></div><div class="shot-lab">Screener · 100+ universe &amp; financial criteria</div></div>
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">custom formula</span></div><img src="img/cap-formula.jpg" alt="Custom formula editor"></div><div class="shot-lab">Custom-formula editor · build &amp; save metrics</div></div>
+    </div></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">track investors / overlap matrix</span></div><img src="img/cap-overlap.jpg" alt="Overlap matrix"></div>
+    <div class="shot-lab">Overlap Matrix · which stocks a set of funds share</div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The modular design system — data tables, metric cards, charts and the shared control bar</li><li>The company Overview layout and the full financial-statement views</li><li>The multi-security Chart Builder and the visual custom-formula editor</li><li>The 100+ criteria Screener flow and the Overlap Matrix</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I shaped with the team</div><div class="k">Collaboration</div></div></div>
+        <ul><li>Competitive benchmarking against Koyfin and peers to set the quality bar</li><li>Turning analysts' and PMs' data-heavy requirements into reusable patterns</li><li>Driving design-system adoption so new views shipped consistently and fast</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="peniwallet">← Peniwallet</a><a data-route="retina">Next: Retina-AI →</a></div>
+  </div>
+</section>
+
+<!-- ============================ RETINA ============================ -->
+<section id="view-retina" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">04 — Retina-AI</div>
+      <h1 class="case-title">In a diagnostic, the UI's first job is to refuse bad input</h1>
+      <div class="case-meta">Product Designer · RETINA-AI Galaxy™ · Clinical study · not FDA-approved</div>
+      <p class="sub">RETINA-AI Galaxy™ is an AI-assisted retinal screening platform used in clinical settings. A technician captures fundus images; the model grades them for disease. I designed the clinician-facing experience — where the problem isn't delight, it's trust: the system has to catch a bad image, say exactly what's wrong in plain language, and never let an unreliable capture reach a diagnosis.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">1,100+</div><div class="l">patients in validation study</div></div>
+      <div class="k"><div class="n">~96%</div><div class="l">reported accuracy</div></div>
+      <div class="k"><div class="n">4 captures</div><div class="l">per exam · both eyes × 2</div></div>
+      <div class="k"><div class="n">Not FDA</div><div class="l">cleared for validation study</div></div>
+    </div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">retina-ai.galaxy / patient exams</span></div><img src="img/ret-exams.jpg" alt="Patient exams list"></div>
+    <div class="shot-lab">Patient exams list · triage at a glance by status</div>
+    <div class="story">
+      <div class="step"><h4>The problem</h4><p>In a diagnostic tool, a bad input produces a dangerous output. Each exam needs four fundus images — optic-disc-centered and macula-centered, for both eyes — often captured by a clinic technician who isn't an imaging specialist. If one is too dark, off-centre or blurred, the model's reading can't be trusted. So the experience's first responsibility is to stop a bad image from ever reaching the model.</p></div>
+      <div class="step"><h4>The call I made</h4><p>Quality gating with <b>plain-language reasons</b>. Every capture is checked, and a failure is framed in red with exactly why — <em>"The optic disc location is not centered," "The image is too dark"</em> — never a generic error. The technician knows precisely what to re-shoot. And <b>Send for Diagnosis stays disabled</b> until all four images pass, turning from muted to active only when the set is clean.</p></div>
+      <div class="pull">The most important thing this UI does is say no — clearly, and at the right moment.</div>
+      <div class="step"><h4>Legibility over density</h4><p>A 2×2 capture grid mirrors the clinical protocol — each eye against each centring — with thumbnail rails to swap a failed image for a better one, or pull a fresh set from the camera. The exams list gives the clinic triage at a glance: In Progress, Insufficient Quality, Diagnosis Completed, Ungradable — always colour <em>and</em> label, never colour alone.</p></div>
+      <div class="step"><h4>The outcome</h4><p>The platform was cleared to run a validation study across 1,100+ patients at roughly 96% accuracy. The quality-gating flow is what makes that number trustworthy at the point of capture — the model only ever sees images good enough to grade.</p></div>
+    </div>
+    <div class="vwrap"><div class="vgrid">
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">exam 1-006 · quality check</span></div><img src="img/ret-quality.jpg" alt="Quality gating"></div><div class="shot-lab">Quality gating · plain-language reasons, in red</div></div>
+      <div><div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">exam 1-006 · replace</span></div><img src="img/ret-replace.jpg" alt="Replace images"></div><div class="shot-lab">Recovery · replace a failed image or pull a fresh set</div></div>
+    </div></div>
+    <div class="browser"><div class="bar"><i></i><i></i><i></i><span class="u">exam 1-006 · ready to submit</span></div><img src="img/ret-capture.jpg" alt="All captures clean"></div>
+    <div class="shot-lab">All four captures clean · Send for Diagnosis unlocks</div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The 2×2 image-quality review grid and the thumbnail swap rails</li><li>The quality-gating states and the plain-language error messaging</li><li>The Send-for-Diagnosis gating — disabled until all four captures pass</li><li>The Patients Exams List and its status system</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I shaped with the team</div><div class="k">Collaboration</div></div></div>
+        <ul><li>The capture protocol and quality thresholds, with clinical and ML stakeholders</li><li>Mapping model confidence and quality scores to operator-facing states</li><li>Designing within the constraints of a live clinical trial</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="capitalyze">← Capitalyze</a><a data-route="chipper">Next: Chipper Cash →</a></div>
+  </div>
+</section>
+
+<!-- ============================ CHIPPER ============================ -->
+<section id="view-chipper" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">05 — Chipper Cash</div>
+      <h1 class="case-title">Rebuilding onboarding around trust — and reading the result off the funnel</h1>
+      <div class="case-meta">Lead Product Designer, CX · Payments · US / UK / Africa</div>
+      <p class="sub">Chipper Cash is one of Africa's largest consumer payment apps. I led CX design across onboarding, account statements, customer-journey mapping and regulatory disclosure — work that ran through product, engineering, legal and compliance. The through-line: make a high-trust financial product feel effortless, and measure every change against the funnel.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">+6.2%</div><div class="l">liveness-pass after consent copy</div></div>
+      <div class="k"><div class="n">+4.8%</div><div class="l">Tier 2–3 KYC verified</div></div>
+      <div class="k"><div class="n">46,000</div><div class="l">users analysed in the funnel</div></div>
+      <div class="k"><div class="n">4</div><div class="l">workstreams, onboarding to disclosure</div></div>
+    </div>
+    <div class="art"><img src="img/chipper-flow.jpg" alt="Chipper redesigned onboarding flow"></div>
+    <div class="shot-lab">The redesigned onboarding flow — email gate, consent copy, selfie, BVN/NIN, activation checklist</div>
+    <div class="story">
+      <div class="step"><h4>The problem, in numbers</h4><p>Full-funnel onboarding completion was just <b>1% — 438 of 46,000 users</b> reached the end. With no email gate, the top of funnel filled with low-quality and bot signups. 25% dropped before the selfie, because the BVN/NIN screens carried no consent language and bred distrust. 17% abandoned after the liveness check with no progress signposting. Verified users then landed on a bare home with nothing to do — and the USD card never surfaced in-flow, so only 20% of eligible users ever activated one.</p></div>
+      <div class="step"><h4>The calls I made</h4><p>An <b>email OTP gate upfront</b> — deliberately trading roughly 4% of raw volume for quality, filtering bots before account creation. <b>Explicit BVN/NIN consent copy</b> placed on the exact screens people were leaving, to rebuild trust mid-funnel. A <b>post-KYC onboarding checklist</b> with a visible progress bar — verify, add money, claim USD card — so no one lands on an empty home. And the <b>USD card surfaced inside the flow</b>, not buried after it.</p></div>
+      <div class="pull">I didn't guess at the drop-offs. I read them off the funnel, fixed the specific screen, and watched the same funnel move.</div>
+      <div class="step"><h4>The result, measured</h4><p>Against intentionally lower entry volume, selfie submission rose <b>+4.6%</b>, liveness pass <b>+6.2%</b> and document submission <b>+3.1%</b>. Verified throughput went up, not down — Tier 1–3 KYC verified <b>+3.8%</b> and Tier 2–3 <b>+4.8%</b>. Fewer, higher-intent users — and more of them finishing.</p></div>
+    </div>
+    <div class="vwrap"><div class="vgrid">
+      <div><div class="art"><img src="img/chipper-funnel.jpg" alt="Funnel counts"></div><div class="shot-lab">Funnel step counts · previous vs new flow</div></div>
+      <div><div class="art"><img src="img/chipper-metabase.jpg" alt="Metabase funnel"></div><div class="shot-lab">Metabase · the funnel I designed against</div></div>
+    </div></div>
+    <h4 class="sub-h">More of the Chipper CX work</h4>
+    <div class="trigrid">
+      <div class="tcard"><h5>Account statements</h5><div class="rl">Support &amp; trust</div><p>Two statement formats — a bank-compliant version and a user-friendly one — with background generation for users with thousands of transactions, delivered by email or in-app.</p><div class="mx">45% fewer support queries<br>+45% engagement · +20% adoption</div></div>
+      <div class="tcard"><h5>Customer-journey mapping</h5><div class="rl">Strategy &amp; data</div><p>Unified five siloed product areas onto one funnel framework (Amplitude, BigQuery, Snowflake) with driver triggers and a cross-functional dashboard, so every team worked from one source of truth.</p><div class="mx">+30% transaction completion<br>−20% drop-off · 40% faster resolution</div></div>
+      <div class="tcard"><h5>Regulatory disclosure</h5><div class="rl">Compliance &amp; UX</div><p>A location-aware dynamic receipt system built with Legal &amp; Compliance — one-click disputes, plain-language rights, and a 180-day dispute window localised per market.</p><div class="mx">100% CFPB adherence<br>−40% review time · −44.7% inquiries</div></div>
+    </div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The redesigned onboarding flow — email gate, mid-funnel consent copy, activation checklist and in-flow USD-card surfacing</li><li>The dynamic, location-aware receipt and disclosure system</li><li>The on-demand and scheduled account-statement experience</li><li>Reading and designing against the Metabase funnel, screen by screen</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I led the team on</div><div class="k">Leadership · CX</div></div></div>
+        <ul><li>CX design across product, engineering, legal &amp; compliance and content</li><li>The journey-mapping framework and cross-functional dashboard, with data &amp; engineering</li><li>Prioritisation — tying each feature to business impact to move it up the roadmap</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="retina">← Retina-AI</a><a data-route="bitmama">Next: Bitmama →</a></div>
+  </div>
+</section>
+
+<!-- ============================ BITMAMA ============================ -->
+<section id="view-bitmama" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div class="case-head">
+      <div class="case-id">06 — Bitmama</div>
+      <h1 class="case-title">Rebuilding a crypto exchange from the user up</h1>
+      <div class="case-meta">Lead Product Designer, CX · Crypto exchange · mobile + web</div>
+      <p class="sub">Bitmama is a blockchain platform for buying, selling, exchanging, storing and investing in crypto. Users had too much information and too little flexibility. So I started not with screens but with research — why people left, what they valued, and what they actually needed — then rebuilt the experience end to end against those findings.</p>
+    </div>
+    <div class="kpis">
+      <div class="k"><div class="n">400%</div><div class="l">increase in users</div></div>
+      <div class="k"><div class="n">+45%</div><div class="l">app usage in two months</div></div>
+      <div class="k"><div class="n">2.9 → 3.8</div><div class="l">App Store rating</div></div>
+      <div class="k"><div class="n">$2M</div><div class="l">funding round contributed to</div></div>
+    </div>
+    <h4 class="sub-h">What the research turned up</h4>
+    <div class="trigrid">
+      <div class="tcard"><h5>Pain points</h5><div class="rl">Why people left</div><ul><li>Limited crypto assets, no USDT</li><li>No third-party integrations</li><li>An inaccurate ETH chart</li><li>An unsatisfying overall experience</li></ul></div>
+      <div class="tcard"><h5>Pleasure points</h5><div class="rl">What they valued</div><ul><li>Secure storage</li><li>BTC &amp; ETH support</li><li>The QR-code feature</li><li>Portfolio management</li></ul></div>
+      <div class="tcard"><h5>Needs</h5><div class="rl">What to build</div><ul><li>USDT &amp; multi-currency management</li><li>Third-party purchase &amp; fiat exchange</li><li>A Bitcoin card</li><li>A design system</li></ul></div>
+    </div>
+    <div class="story">
+      <div class="step"><h4>From findings to product</h4><p>The research pointed straight at the roadmap. I added USDT and multi-currency management, a Bitcoin card, third-party purchase and fiat-exchange flexibility — and built a design system so the product could grow consistently instead of accreting screens. The brief set targets of +35% app usage, +35% transactions and +25% new users.</p></div>
+      <div class="pull">The redesign didn't just hit the targets — it cleared them several times over.</div>
+      <div class="step"><h4>The outcome</h4><p>In the two months after launch, app usage rose <b>+45%</b>, the user base grew <b>400%</b>, and the App Store rating climbed from <b>2.9 to 3.8</b>. The redesign also contributed to the company's <b>$2M</b> funding round — the clearest signal that the experience, not just the feature set, had changed.</p></div>
+    </div>
+    <div class="split">
+      <div class="pane ic"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11.5V5a2 2 0 0 1 4 0v6M13 7a2 2 0 0 1 4 0v5m0-3a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2.5a5 5 0 0 1-3.9-1.9l-3.3-4.2a2 2 0 0 1 3-2.6l1.2 1.2"/></svg><div><div class="t">What I designed myself</div><div class="k">Hands-on / IC</div></div></div>
+        <ul><li>The end-to-end buy / sell / exchange / store / invest flows across mobile and web</li><li>The Bitcoin card experience</li><li>The design system that unified the product</li></ul></div>
+      <div class="pane lead"><div class="ph2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M15 11a3 3 0 1 0-2-5.2M3 20a6 6 0 0 1 12 0M14.5 14.2A6 6 0 0 1 21 20"/></svg><div><div class="t">What I led the team on</div><div class="k">Leadership · CX</div></div></div>
+        <ul><li>The research program — mixed-method and usability testing with up to 15 users</li><li>UX strategy with the PM, engineers and CEO</li><li>Turning findings into a prioritised roadmap</li></ul></div>
+    </div>
+    <div class="case-nav"><a data-route="chipper">← Chipper Cash</a><a data-route="home">All work →</a></div>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<section id="view-about" class="view case-view" hidden>
+  <div class="wrap">
+    <span class="back" data-route="home">← All work</span>
+    <div style="margin-top:34px">
+      <div class="case-id">About</div>
+      <p class="about-lede" style="margin-top:16px">A product design leader who never left the craft.</p>
+    </div>
+    <div class="about-body">
+      <p>I'm Bright Anyanwu, a Lagos-based product design leader. I currently lead Product and Product Design at <b>SMC / Penilabs</b>, where I own the strategy for Peniwallet and Peniremit and still design the flows myself.</p>
+      <p>Before this I built across African and global fintech — payments and CX at <b>Chipper Cash</b>, a research-led rebuild at <b>Bitmama</b>, investor tooling at <b>Capitalyze</b>, clinician-facing health-AI at <b>Retina-AI</b>, and operations work at <b>Deel</b>. My throughline is high-trust products: payments, wallets, diagnostics — the places where a design mistake has a real cost, and a good decision compounds.</p>
+      <p>I also founded <b>Raisen</b> (raisen.org), a solo-built AI career-prep product now past 1,500 users — which is where a lot of my AI-native build practice comes from.</p>
+    </div>
+    <h4 class="sub-h">How I work</h4>
+    <div class="approach-grid">
+      <div class="acard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><h3>Curiosity before the redline</h3><p>When a designer's work misses the mark, I ask <span class="k">why</span> they made the call before I give feedback — their reasoning is sometimes better than mine. Disagreements get settled with evidence and user research, not hierarchy.</p></div>
+      <div class="acard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/><circle cx="12" cy="12" r="2.5"/></svg></div><h3>AI-native by default</h3><p>I design and build with AI in the loop every day — <span class="k">Claude Code</span> for prototyping and real front-ends, <span class="k">Lovable</span> for production builds. It's how I move from idea to clickable fast.</p></div>
+      <div class="acard"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h7"/></svg></div><h3>Ship early, loop tight</h3><p>Distributed team, async by default. I'd rather have the honest conversation on day two than a painful one on day ten — share rough, critique early, iterate. And I own my misses out loud.</p></div>
+    </div>
+    <div class="case-nav"><a data-route="home">← All work</a><a data-route="peniremit">Start with Peniremit →</a></div>
+  </div>
+</section>
+</main>
+
+<!-- ============================ FOOTER / CONTACT ============================ -->
+<footer class="foot" id="contact">
+  <div class="wrap foot-in">
+    <h2>Let's build something people trust with their money.</h2>
+    <p>Open to senior and lead product design roles — fintech-leaning, but the craft travels across industries.</p>
+    <div class="foot-row">
+      <span class="email-box"><span class="addr">ulltimatealpha@gmail.com</span><button class="copy" id="copyBtn" type="button">Copy</button></span>
+    </div>
+    <div class="flinks">
+      <a href="https://www.linkedin.com/in/bright-anyanwu" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://alphabright.pro" target="_blank" rel="noopener">alphabright.pro ↗</a>
+      <a href="https://raisen.org" target="_blank" rel="noopener">Raisen ↗</a>
+    </div>
+    <div class="foot-meta"><span>Bright Anyanwu — Product Design Leader</span><span>Lagos · WAT (UTC+1)</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var sun='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var moon='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  var tbtn=document.getElementById('themeBtn');
+  function applyTheme(t){ root.setAttribute('data-theme',t); tbtn.innerHTML = t==='dark'? sun : moon; }
+  var saved='light';
+  try{ var s=localStorage.getItem('theme_v2'); if(s==='dark'||s==='light') saved=s; }catch(e){}
+  applyTheme(saved);
+  tbtn.addEventListener('click',function(){
+    var t = root.getAttribute('data-theme')==='dark' ? 'light':'dark';
+    applyTheme(t); try{localStorage.setItem('theme_v2',t);}catch(e){}
+  });
+
+  var routes=['home','peniremit','peniwallet','capitalyze','retina','chipper','bitmama','about'];
+  var current='home';
+  function elFor(r){ return document.getElementById('view-'+r); }
+  function setNav(r){
+    document.getElementById('nl-work').classList.toggle('on', r!=='about');
+    document.getElementById('nl-about').classList.toggle('on', r==='about');
+  }
+  function reveal(r){ if(r==='home' && !reduce){ var h=elFor('home').querySelector('.reveal'); if(h){ h.classList.remove('reveal'); void h.offsetWidth; h.classList.add('reveal'); } } }
+  function show(r,animate){
+    if(routes.indexOf(r)<0) r='home';
+    if(r===current && animate) return;
+    var oldEl=elFor(current), newEl=elFor(r);
+    var finish=function(){
+      if(oldEl&&oldEl!==newEl){ oldEl.hidden=true; oldEl.classList.remove('leaving'); }
+      window.scrollTo(0,0);
+      newEl.hidden=false;
+      if(animate && !reduce && oldEl!==newEl){ newEl.classList.add('entering'); setTimeout(function(){newEl.classList.remove('entering');},470); }
+      current=r; setNav(r); reveal(r); runCount();
+      try{ var want = r==='home'? location.pathname+location.search : '#'+r; if((location.hash||'')!=='#'+r || r==='home'){ history.replaceState(null,'',want); } }catch(e){}
+    };
+    if(animate && !reduce && oldEl && oldEl!==newEl){ oldEl.classList.add('leaving'); setTimeout(finish,230); }
+    else finish();
+  }
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('[data-route]');
+    if(t){ e.preventDefault(); show(t.getAttribute('data-route'),true); return; }
+    if(e.target.closest('#nl-contact')||e.target.closest('#nl-cta')){
+      e.preventDefault(); document.getElementById('contact').scrollIntoView({behavior:reduce?'auto':'smooth'});
+    }
+  });
+  window.addEventListener('hashchange',function(){
+    var r=(location.hash||'').slice(1); if(!r) r='home';
+    if(routes.indexOf(r)>=0 && r!==current) show(r,true);
+  });
+  (function(){
+    var r=(location.hash||'').slice(1); if(routes.indexOf(r)<0) r='home';
+    routes.forEach(function(x){ var el=elFor(x); if(el) el.hidden=(x!==r); });
+    current=r; setNav(r); window.scrollTo(0,0);
+  })();
+
+  var counted=false;
+  function runCount(){
+    if(counted || current!=='home' || reduce) return;
+    counted=true;
+    document.querySelectorAll('#view-home .tile .num[data-to]').forEach(function(el){
+      var to=parseFloat(el.dataset.to); if(isNaN(to)) return;
+      var dec=parseInt(el.dataset.dec||'0',10), pre=el.dataset.pre||'', suf=el.dataset.suf||'';
+      var t0=performance.now(), dur=1200;
+      function fmt(v){ var s=dec? v.toFixed(dec): Math.round(v).toLocaleString('en-US'); return pre+s+suf; }
+      function tick(now){ var p=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=fmt(to*e); if(p<1) requestAnimationFrame(tick); else el.textContent=pre+(dec?to.toFixed(dec):to.toLocaleString('en-US'))+suf; }
+      requestAnimationFrame(tick);
+    });
+  }
+  runCount();
+
+  var btn=document.getElementById('copyBtn');
+  if(btn){ btn.addEventListener('click',function(){
+    var email='ulltimatealpha@gmail.com';
+    var done=function(){ var t=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){btn.textContent=t;},1600); };
+    var sel=function(){ try{ var r=document.createRange(); r.selectNodeContents(document.querySelector('.addr')); var s=getSelection(); s.removeAllRanges(); s.addRange(r); }catch(e){} done(); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(email).then(done).catch(sel); } else sel();
+  }); }
+})();
+
+/* ---------- floating tool logos ---------- */
+(function(){
+  var box=document.getElementById('logoFloat'); if(!box) return;
+  var chips=[].slice.call(box.querySelectorAll('.lchip')); if(!chips.length) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var S=46, W=box.clientWidth||440, H=box.clientHeight||360;
+  function bounds(){ W=box.clientWidth||W; H=box.clientHeight||H; }
+  var cols=Math.ceil(Math.sqrt(chips.length));
+  var items=chips.map(function(el,i){
+    var ang=Math.random()*6.283, sp=0.16+Math.random()*0.2;
+    var gx=14+((i%cols)+Math.random()*.5)*((W-S-28)/cols);
+    var gy=40+(Math.floor(i/cols)+Math.random()*.5)*((H-S-56)/cols);
+    return {el:el, x:Math.max(8,Math.min(W-S-8,gx)), y:Math.max(32,Math.min(H-S-8,gy)),
+      vx:Math.cos(ang)*sp, vy:Math.sin(ang)*sp, ph:Math.random()*6.283, rs:.4+Math.random()*.5};
+  });
+  var tip=document.createElement('div'); tip.className='ltip'; box.appendChild(tip);
+  function place(it){ it.el.style.transform='translate('+it.x.toFixed(2)+'px,'+it.y.toFixed(2)+'px) rotate('+(Math.sin(it.ph)*7).toFixed(2)+'deg) scale('+(it.hover?1.14:1)+')'; }
+  items.forEach(function(it){
+    var name=it.el.getAttribute('title')||''; it.el.removeAttribute('title'); it.hover=false; it.el.style.zIndex='1';
+    it.el.addEventListener('pointerenter',function(){ it.hover=true; it.el.style.zIndex='2'; tip.textContent=name; tip.style.left=(it.x+23)+'px'; tip.style.top=(it.y-4)+'px'; tip.style.opacity='1'; place(it); });
+    it.el.addEventListener('pointerleave',function(){ it.hover=false; it.el.style.zIndex='1'; tip.style.opacity='0'; place(it); });
+    place(it);
+  });
+  if(reduce) return;
+  function frame(){
+    for(var i=0;i<items.length;i++){ var it=items[i];
+      if(!it.hover){
+        it.x+=it.vx; it.y+=it.vy; it.ph+=0.012*it.rs;
+        if(it.x<8){it.x=8;it.vx=Math.abs(it.vx);} else if(it.x>W-S-8){it.x=W-S-8;it.vx=-Math.abs(it.vx);}
+        if(it.y<30){it.y=30;it.vy=Math.abs(it.vy);} else if(it.y>H-S-8){it.y=H-S-8;it.vy=-Math.abs(it.vy);}
+      }
+      place(it);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(bounds,150); });
+})();
+</script>
+
+</body>
+</html>
