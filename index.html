@@ -188,7 +188,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
 .chip.live{color:var(--bg);background:var(--ink);border-color:var(--ink)}
 .card h3{font-weight:700;font-size:24px;margin:0 0 5px;letter-spacing:-.02em}
 .card .role{color:var(--faint);font-size:13px;font-family:var(--f-mono);margin-bottom:14px}
-.card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.55em * 2)}
 .card .outcome{margin-top:16px;display:flex;gap:22px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
 .card .outcome .o-num{font-family:var(--f-mono);color:var(--ink);font-size:17px;font-weight:500}
 .card .outcome .o-lbl{font-size:12px;color:var(--muted)}
@@ -402,7 +402,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip live">Lead designer</span><span class="chip">Crypto payments</span><span class="chip">0→1</span></div>
           <h3>Peniremit</h3>
           <div class="role">Spend crypto like cash — bills, airtime, bank transfers</div>
-          <p>Made a messy multi-token balance feel like one spendable number, so paying a ₦2M bill never means thinking about which coins to combine.</p>
+          <p>Made a messy multi-token balance feel like one spendable number — pay a ₦2M bill without juggling coins.</p>
           <div class="outcome"><div><div class="o-num">9,000+</div><div class="o-lbl">users in 10 weeks</div></div><div><div class="o-num">$400K+</div><div class="o-lbl">processed</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
@@ -414,7 +414,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip live">Lead designer</span><span class="chip">Self-custody wallet</span><span class="chip">Multi-chain</span></div>
           <h3>Peniwallet</h3>
           <div class="role">Non-custodial wallet across five chains</div>
-          <p>A redesign I got wrong cost users real money — and the fix became the clearest lesson of my career about designing for <em>your</em> user, not the whole world.</p>
+          <p>A redesign I got wrong cost users real money — and the fix reframed how I design for <em>my</em> users, not the whole world.</p>
           <div class="outcome"><div><div class="o-num">$1.2B+</div><div class="o-lbl">volume</div></div><div><div class="o-num">5 chains</div><div class="o-lbl">BNB·SOL·ETH·TON·BASE</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
@@ -426,7 +426,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip">Product designer</span><span class="chip">Fintech / investing</span><span class="chip">Desktop</span></div>
           <h3>Capitalyze</h3>
           <div class="role">Financial intelligence for institutional investors</div>
-          <p>A cleaner, smoother take on Koyfin — a dense desktop terminal held together by one modular system across statements, charts and a 100+ criteria screener.</p>
+          <p>A cleaner, smoother take on Koyfin — one modular system across statements, charts and a 100+ criteria screener.</p>
           <div class="outcome"><div><div class="o-num">40%</div><div class="o-lbl">faster task completion</div></div><div><div class="o-num">100+</div><div class="o-lbl">screener criteria</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
@@ -438,7 +438,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip">Product designer</span><span class="chip">Health-AI</span><span class="chip">Diagnostics</span></div>
           <h3>Retina-AI</h3>
           <div class="role">RETINA-AI Galaxy™ — retinal screening, AI-assisted</div>
-          <p>Designed the clinician-facing experience for an AI diagnostic — where the real job is refusing bad inputs before they ever reach a diagnosis.</p>
+          <p>The clinician-facing side of an AI diagnostic — built to refuse bad inputs before they ever reach a diagnosis.</p>
           <div class="outcome"><div><div class="o-num">1,100+</div><div class="o-lbl">patients in study</div></div><div><div class="o-num">~96%</div><div class="o-lbl">accuracy</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
@@ -450,7 +450,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip live">Lead designer, CX</span><span class="chip">Payments</span><span class="chip">Onboarding</span></div>
           <h3>Chipper Cash</h3>
           <div class="role">One of Africa's largest consumer payment apps</div>
-          <p>Rebuilt onboarding around trust and read the result straight off the funnel — plus statements, journey mapping and regulatory disclosure.</p>
+          <p>Rebuilt onboarding around trust and read the result off the funnel — plus statements, journeys and disclosure.</p>
           <div class="outcome"><div><div class="o-num">+6.2%</div><div class="o-lbl">liveness-pass</div></div><div><div class="o-num">45%</div><div class="o-lbl">fewer support queries</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
@@ -462,7 +462,7 @@ h1.head{font-weight:800;letter-spacing:-.035em;line-height:.98;margin:22px 0 0;
           <div class="chiprow"><span class="chip live">Lead designer, CX</span><span class="chip">Crypto exchange</span><span class="chip">Research-led</span></div>
           <h3>Bitmama</h3>
           <div class="role">Pan-African crypto exchange, rebuilt from research</div>
-          <p>Started with why users left, not with screens — then rebuilt buy/sell/store/invest end to end, added USDT and a Bitcoin card, and shipped a design system.</p>
+          <p>Started with why users left, not screens — then rebuilt it end to end with USDT, a Bitcoin card and a design system.</p>
           <div class="outcome"><div><div class="o-num">+45%</div><div class="o-lbl">app usage, 2 mo</div></div><div><div class="o-num">2.9→3.8</div><div class="o-lbl">App Store rating</div></div></div>
           <span class="more">Read the case study →</span>
         </div>
